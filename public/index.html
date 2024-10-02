@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .leaderboard { border-collapse: collapse; width: 100%; }
+        .leaderboard th, .leaderboard td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .leaderboard tr:nth-child(even) { background-color: #f2f2f2; }
+        .leaderboard th { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <table id="leaderboardTable"></table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/leaderboard')
+                .then(response => response.json())
+                .then(data => displayLeaderboard(data))
+                .catch(error => console.error('Error:', error));
+        });
+
+        function displayLeaderboard(leaderboardData) {
+            let tableBody = '';
+            leaderboardData.forEach(member => {
+                tableBody += `<tr><td>${member.member}</td><td>${member.score.toFixed(2)}</td></tr>`;
+            });
+            document.getElementById('leaderboardTable').innerHTML = tableBody;
+        }
+    </script>
+</body>
+</html>
